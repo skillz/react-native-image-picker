@@ -305,6 +305,9 @@ public class ImagePickerModule extends ReactContextBaseJavaModule
   @ReactMethod
   public void launchImageLibrary(final ReadableMap options, final Callback callback)
   {
+    this.callback = callback;
+    this.options = options;
+    
     final Activity currentActivity = getCurrentActivity();
     if (currentActivity == null) {
       responseHelper.invokeError(callback, "can't find current Activity");

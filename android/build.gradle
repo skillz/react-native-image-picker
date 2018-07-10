@@ -12,12 +12,17 @@ buildscript {
         google()
         jcenter()
         mavenCentral()
+        maven {
+            url 'http://nexus.skillz.com/content/repositories/snapshots/'
+        }
+        maven { url 'https://maven.fabric.io/public' }
+
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.1.2'
         classpath 'de.undercouch:gradle-download-task:3.1.2'
-        classpath 'com.google.gms:google-services:3.1.0'
+        classpath 'com.google.gms:google-services:3.2.0'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
     }
 }
@@ -25,12 +30,12 @@ buildscript {
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.3'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 22
+        targetSdkVersion 27
         versionCode 1
         versionName computeVersionName()
     }
@@ -44,27 +49,21 @@ android {
 }
 
 repositories {
+    google()
+    mavenCentral()
     maven {
         url 'http://nexus.skillz.com/content/groups/public'
     }
-    mavenCentral()
+
     jcenter()
-    google()
+    flatDir { dirs 'libs', '../../node_modules' }
 }
 
 dependencies {
-    compile 'com.facebook.react:react-native:0.51.1'
-    compile 'com.android.support:support-v4:26.1.0'
-    compile 'com.android.support:appcompat-v7:26.1.0'
-    testCompile 'junit:junit:4.10'
-    testCompile 'org.assertj:assertj-core:1.7.0'
-    testCompile 'org.robolectric:robolectric:3.3.2'
-    testCompile "org.easytesting:fest-assert-core:${FEST_ASSERT_CORE_VERSION}"
-    testCompile "org.powermock:powermock-api-mockito:${POWERMOCK_VERSION}"
-    testCompile "org.powermock:powermock-module-junit4-rule:${POWERMOCK_VERSION}"
-    testCompile "org.powermock:powermock-classloading-xstream:${POWERMOCK_VERSION}"
-    testCompile "org.mockito:mockito-core:${MOCKITO_CORE_VERSION}"
-    api 'com.android.support:exifinterface:26.1.0'
+    compile 'com.facebook.react:react-native:0.51.2'
+    api 'com.android.support:support-v4:27.1.1'
+    api 'com.android.support:appcompat-v7:27.1.1'
+    api 'com.android.support:exifinterface:27.1.1'
 }
 
 apply from: 'release.gradle'

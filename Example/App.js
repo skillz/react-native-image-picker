@@ -19,36 +19,24 @@ export default class App extends React.Component {
   };
 
   selectPhotoTapped() {
-    const options = {
-      quality: 1.0,
-      maxWidth: 500,
-      maxHeight: 500,
+    const imagePickerOptions = {
+      mediaType: 'photo',
+      allowsEditing: true, // only affects iOS
+      noData: true,
       storageOptions: {
-        skipBackup: true
+        skipBackup: true, // only affects iOS
+        cameraRoll: false,
       }
     };
 
-    ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
 
+    ImagePicker.launchImageLibrary(imagePickerOptions, (response: Object) => {
+      console.log('Response = ', JSON.stringify(response));
       if (response.didCancel) {
-        console.log('User cancelled photo picker');
-      }
-      else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      }
-      else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      }
-      else {
-        let source = { uri: response.uri };
-
-        // You can also display the image using data:
-        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-
-        this.setState({
-          avatarSource: source
-        });
+        console.debug('User cancelled image picker');
+      } else if (response.error) {
+        console.warn('Image Picker error: ', response.error);
+      } else {
       }
     });
   }
