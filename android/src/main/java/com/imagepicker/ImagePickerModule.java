@@ -103,31 +103,7 @@ public class ImagePickerModule extends ReactContextBaseJavaModule
       if (!permissionsGranted)
       {
         responseHelper.invokeError(callback, "Permissions weren't granted");
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Please go to Settings to allow Skillz to access media files.")
-               .setPositiveButton("Settings", new DialogInterface.OnClickListener() {
-                 @Override
-                 public void onClick(DialogInterface dialog, int which) {
-                   Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                   intent.setData(Uri.parse("package:" + getContext().getPackageName()));
-                   intent.putExtra("Permission", true);
-                   intent.addCategory(Intent.CATEGORY_DEFAULT);
-                   intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                   intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                   intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-                   try {
-                     getActivity().startActivityForResult(intent, 151); // Settings request code
-                   } catch (ActivityNotFoundException ignored) {
-                   }
-                 }
-               })
-               .setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
-                 @Override
-                 public void onClick(DialogInterface dialog, int which) {
-                 }
-        });
-        builder.create();
-        builder.show();
+        showSettingsModal();
         return false;
       }
 
@@ -549,6 +525,35 @@ public class ImagePickerModule extends ReactContextBaseJavaModule
     return callback == null || (cameraCaptureURI == null && requestCode == REQUEST_LAUNCH_IMAGE_CAPTURE)
             || (requestCode != REQUEST_LAUNCH_IMAGE_CAPTURE && requestCode != REQUEST_LAUNCH_IMAGE_LIBRARY
             && requestCode != REQUEST_LAUNCH_VIDEO_LIBRARY && requestCode != REQUEST_LAUNCH_VIDEO_CAPTURE);
+  }
+
+  private void showSettingsModal()
+  {
+    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    builder.setMessage("Please go to Settings to allow Skillz to access media files.")
+            .setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                intent.setData(Uri.parse("package:" + getContext().getPackageName()));
+                intent.putExtra("Permission", true);
+                intent.addCategory(Intent.CATEGORY_DEFAULT);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                try {
+                  getActivity().startActivityForResult(intent, 151); // Settings request code
+                } catch (ActivityNotFoundException ignored) {
+                }
+              }
+            })
+            .setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+              }
+            });
+    builder.create();
+    builder.show();
   }
 
   private void updatedResultResponse(@Nullable final Uri uri,
