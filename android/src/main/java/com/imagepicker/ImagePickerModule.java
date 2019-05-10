@@ -527,6 +527,7 @@ public class ImagePickerModule extends ReactContextBaseJavaModule
             && requestCode != REQUEST_LAUNCH_VIDEO_LIBRARY && requestCode != REQUEST_LAUNCH_VIDEO_CAPTURE);
   }
 
+  @ReactMethod
   private void showSettingsModal()
   {
     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
