@@ -527,7 +527,8 @@ public class ImagePickerModule extends ReactContextBaseJavaModule
             && requestCode != REQUEST_LAUNCH_VIDEO_LIBRARY && requestCode != REQUEST_LAUNCH_VIDEO_CAPTURE);
   }
 
-  private void showSettingsModal()
+  @ReactMethod
+  public void showSettingsModal()
   {
     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
     builder.setMessage("Please go to Settings to allow Skillz to access media files.")
